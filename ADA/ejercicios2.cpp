@@ -21,23 +21,24 @@ void printS(int);
 
 
 int main(){
-	//Lista list1(10);
-	Lista list2(10);
-	//list1.print()
-	list2.print();
-	//list1.ShakerSort();
-	//list1.print();
-	//list2.print();
-	list2.QuickSort2(0,list2.ListSize-1);///ordena pares ascendente impares descendente
+	Lista list1(30);
+	cout<<"LISTA A"<<endl;	
+	list1.print();
+	
+	cout<<"LISTA A"<<endl;	
+	list1.QuickSort2(0,list1.ListSize-1);	
+	list1.print();	
+	
+	///ordena pares ascendente impares descendente
 	
 	//list2.QuickSort(0,list2.ListSize-1,2); ///forma recursiva de QS
 	//list2.Iterative_QuickSort(0,list2.ListSize-1,2); ///forma iterativa de QS
 	//list2.MergeSort(0,list2.ListSize); /// forma recursiva del merge
 	//list2.Iterative_MergeSort();/// forma itertiva del merge
 	//cout<<list2.SQuickSort(5,0,list2.ListSize-1)<<endl;///Imprime el numero en la posicion 5 no ordena completamente la lista;
-	list2.print();
+	
 	//printS(list2.BinarySearch(10));
-	//print(merge(list1.arreglo,list2.arreglo,list1.ListSize,list2.ListSize));
+	
 
 
 }

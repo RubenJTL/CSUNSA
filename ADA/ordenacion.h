@@ -6,12 +6,10 @@
 #include <time.h>
 #include <math.h>
 #include <stdio.h>
-#include <string.h> 	///memcpy
-#include <algorithm>    ///min
 
 using namespace std;
 
-typedef int Num;
+typedef double Num;
 
 void swap(Num & a,Num & b){
 	Num aux;
@@ -19,11 +17,10 @@ void swap(Num & a,Num & b){
 	a=b;
 	b=aux;
 }
-
 class Lista{
 	public:
 		Lista();
-		Lista(int dimension);
+		Lista(Num dimension);
 		
 		///SORTS
 		void IntercambioSort();
@@ -34,44 +31,53 @@ class Lista{
 		void BrickSort();
 		void ShakerSort();
 		void ShellSort();
-		void QuickSort(int, int,int);
+		void QuickSort(int, int);
 		void QuickSort2(int, int);
 		void QuickSortP(int, int);
 		void QuickSortI(int, int);
 		int partition(int,int,int);
 		void Merge(int , int , int);
 		void MergeSort(int ,int );
-
-		///ITERATIVE SORTS
-		void Iterative_QuickSort(int, int);
-		void Iterative_MergeSort();
+		void copy(const Lista &);
 
 		///SEARCH
 		int BinarySearch(Num); //return la posicion
-		int SQuickSort(Num, int, int);
 
 
 		///DISPLAY
 		void print();
 
 
-		int 	ListSize;
+		Num 	ListSize=0;
 		Num * 	arreglo;
+	/*	~Lista() { 
+                delete arreglo;
+        		cout<<"~B()"<<endl;
+    	}*/
 };
 
 
 
-Lista::Lista(){ ListSize=0;
-}
+Lista::Lista(){}
 
-Lista::Lista(int dimension){
+Lista::Lista(Num dimension){
 	srand(time(NULL));
 	ListSize	=	dimension;
 	arreglo		=	(Num *) malloc(sizeof(Num) * dimension);
 	for(unsigned i=0;i<dimension;++i){
-		arreglo[i]=rand()%dimension+1;
+		arreglo[i]=rand()% (int)dimension+1;
+
 	}
 }
+
+void Lista::copy( const Lista & other ) {
+	  ListSize = other.ListSize;
+      arreglo = (Num *) malloc(sizeof(Num) * other.ListSize);
+      memcpy (arreglo, other.arreglo, ListSize *sizeof(Num*));
+      //arreglo = new Num(*other.arreglo); 
+      
+     
+  }
 
 void Lista::print(){
 	for (unsigned i = 0; i < ListSize; ++i)
@@ -102,37 +108,6 @@ int Lista::BinarySearch(Num clave){
 	return -1;
 }
 
-int Lista::SQuickSort(Num clave,int ini ,int fin){
-	int i = ini, j = fin;
-	int pos = ( ini + fin) / 2 ;
-	Num piv = arreglo[ pos ];
-	while( i < j ){
-		while( arreglo[i] < piv ){
-			i++;			
-		}
-		while( piv < arreglo[ j ] ){
-			j--;
-		}
-		if( i <= j ){
-			if( i != j ){
-				swap(arreglo[ i ] , arreglo[ j ]);
-				
-			} 
-			i++;
-			j--;
-			
-		}
-	}
-	if( ini < j  and ini<=clave-1 and clave-1<=j){
-		SQuickSort(clave,ini,j);
-	}
-	if( i < fin and i<=clave-1 and clave-1<=fin){
-		SQuickSort(clave,i,fin);
-	}
-	return arreglo[clave-1];
-}
-
-
 ///*SEARCH*
 
 
@@ -148,6 +123,7 @@ void Lista::SelectSort(){
 			}
 		}
 		swap(arreglo[minimo],arreglo[i]);
+		print();
 	}
 }
 
@@ -161,6 +137,7 @@ void Lista::BubbleSort(){
 				swap(arreglo[j],arreglo[j+1]);
 			}
 		}
+		print();
 	}
 }
 
@@ -175,6 +152,7 @@ void Lista::InsertSort(){
 			--j;
 		}
 		arreglo[j]=aux;
+		print();
 	}	
 }
 
@@ -185,7 +163,8 @@ void Lista::IntercambioSort(){
 			if(arreglo[i]>arreglo[j]){
 				swap(arreglo[i],arreglo[j]);
 			}
-		}		
+		}	
+		print();	
 	}
 }
 
@@ -268,6 +247,7 @@ void Lista::ShellSort(){
 
 int Lista::partition(int ini, int fin ,int forma){
 	int pos=(ini+fin)/2;
+	//cout<<pos<<endl;
 	int piv=arreglo[pos];
 	int i=ini,j=fin;
 	if(forma==1){
@@ -307,35 +287,45 @@ int Lista::partition(int ini, int fin ,int forma){
 		}
 	}
 	if(forma==3){
-		int piv = arreglo[fin];
-	    i = ini;
-	    for (int j = ini; j < fin; j++)
-	    {
-	        if (arreglo[j] <= piv)
-	        {
-	            swap (arreglo[i], arreglo[j]);
-	            i++;
-	            
-	        }
-	    }
-	    swap (arreglo[i], arreglo[fin]);
-	    return (i);
+		if(pos%2==0){
+			if(pos+1<fin)	pos++;
+		}
+		cout<<pos<<endl;
+		piv = arreglo[ pos ];
+		cout<< piv<<endl;
+		while(true){
+			while(arreglo[i]<piv and i<=j){
+				i+=2;
+			}
+			while(arreglo[j]>piv and i<=j){
+				j-=2;
+			}
+			if(i<j){
+				swap(arreglo[i],arreglo[j]);
+				i+=2;
+				j-=2;
+			}
+			else{
+				return j;
+			}
+		}
 	}
-
 }
 
-void Lista::QuickSort(int ini,int fin,int forma){
+void Lista::QuickSort(int ini,int fin){
 	if(ini<fin){
-		int p=partition(ini,fin,forma);
-		QuickSort(ini,p,forma);
-		QuickSort(p+1,fin,forma);
+		print();
+		int p=partition(ini,fin,2);
+		QuickSort(ini,p);
+		QuickSort(p+1,fin);
 	}
 }
 
 void Lista::QuickSort2(int ini,int fin){
 		QuickSortI(ini,fin-1);
-		QuickSortP(ini,fin-1);
+		//QuickSortP(ini+1,fin-1);
 }
+
 
 void Lista::QuickSortI(int ini,int fin){
 	if(fin%2!=0)
@@ -344,54 +334,19 @@ void Lista::QuickSortI(int ini,int fin){
 		ini++;
 	int i = ini, j = fin;
 	int pos = ( ini + fin) / 2 ;
-	if(pos%2!=0){
-		pos++;
-	}
+	//cout<<i<<j<<endl;
 	Num piv = arreglo[ pos ];
+	//cout<<piv<<endl;
 	while( i < j ){
-		while( arreglo[i] > piv ){
+		while( arreglo[i] < piv ){
 			i+=2;
 			
 		}
-		while( piv > arreglo[ j ] ){
-			j-=2;
-		}
-		if( i <= j ){
-			if( i != j ){
-				swap(arreglo[ i ] , arreglo[ j ]);
-				
-			} 
-			i+=2;
-			j-=2;		
-		}
-	}
-	if( ini < j ){
-		QuickSortI(ini,j);
-	}
-	if( i < fin ){
-		QuickSortI(i,fin);
-	}
-
-}
-
-void Lista::QuickSortP(int ini,int fin){
-	if(fin%2==0)
-		fin--;
-	if(ini%2==0)
-		ini++;
-	int i = ini, j = fin;
-	int pos = ( ini + fin) / 2 ;
-	if(pos%2==0){
-		pos++;
-	}
-	Num piv = arreglo[ pos ];
-	while( i < j ){
-		while( arreglo[i] < piv ){
-			i+=2;			
-		}
+		cout<<"i"<<i<<endl;
 		while( piv < arreglo[ j ] ){
 			j-=2;
 		}
+		cout<<"j"<<j<<endl;
 		if( i <= j ){
 			if( i != j ){
 				swap(arreglo[ i ] , arreglo[ j ]);
@@ -406,15 +361,42 @@ void Lista::QuickSortP(int ini,int fin){
 	if( i < fin ){
 		QuickSortP(i,fin);
 	}
+     
+}
+
+void Lista::QuickSortP(int ini,int fin){
+	int i = ini, j = fin;
+	Num piv = arreglo[ ( ini + fin) / 2 ];
+	do{
+		while( arreglo[i] < piv ){
+			i+=2;
+		}
+		while( piv < arreglo[ j ] ){
+			j-=2;
+		}
+		if( i <= j ){
+			if( i != j ){
+				swap(arreglo[ i ] , arreglo[ j ]);
+			} 
+			i+=2;
+			j-=2;
+		}
+	}while( i <= j );
+	if( ini < j ){
+		QuickSortP(ini,j);
+	}
+	if( i < fin ){
+		QuickSortP(i,fin);
+	}
 }
 
 void Lista::Merge(int left , int medio , int right){ 
-	Num *temp= (Num *) malloc(sizeof(Num) * ListSize);
-	memcpy(temp,arreglo,ListSize*sizeof(Num));
-	int left_ = left ;
-	int right_ = medio + 1;
-	int pos = left_;
-	while (left_ <= medio || right_ <= right) {
+    Num *temp= (Num *) malloc(sizeof(Num) * ListSize);
+    memcpy(temp,arreglo,ListSize*sizeof(Num));
+    int left_ = left ;
+    int right_ = medio + 1;
+    int pos = left_;
+    while (left_ <= medio || right_ <= right) {
           if (left_ <= medio && right_ <= right) {
                if (temp[ left_ ] <= temp[ right_ ]) {
                     arreglo[ pos ] = temp[ left_ ];
@@ -435,7 +417,7 @@ void Lista::Merge(int left , int medio , int right){
 }
 
 void Lista::MergeSort(int left,int right){
-	if (left< right) {
+    if (left< right) {
           int medio = (left+ right) / 2;
           MergeSort(  left, medio );
           MergeSort(  medio + 1 , right );
@@ -444,42 +426,7 @@ void Lista::MergeSort(int left,int right){
 }
 ///*SORTS*
 
+///*SORTS*
 
-///ITERATIVE SORTS
-void Lista::Iterative_QuickSort(int ini, int fin){
-	Num *stack=(Num *) malloc(sizeof(Num) * (ListSize));
-	int top=-1;
-	stack[++top]=ini;
-	stack[++top]=fin;
-	while(top>=0){
-		
-		fin=stack[top--];
-		ini=stack[top--];
-		 
-		int p=partition(ini,fin,3);
-		if(p - 1 > ini){
-			stack[++top] = ini;
-			stack[++top] = p - 1;
-		}
-		if(p + 1 < fin){
-			stack[++top] = p + 1;
-			stack[++top] = fin;
-		}
-	}
-}
-
-void Lista::Iterative_MergeSort(){
-    for (int i = 1; i <= ListSize-1 ; i *= 2)
-    {
-        for (int j = 0; j < ListSize-1; j += 2 * i)
-        {
-        	int medio = j + i -1;
-        	int fin_ = min(j + 2 * i - 1 , ListSize - 1);
-            Merge( j, medio , fin_);
-        }
-    }
-}
-
-///*ITERATIVE SORTS
 
 #endif 
