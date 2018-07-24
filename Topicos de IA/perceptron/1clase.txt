@@ -1,0 +1,59 @@
+Redes Neuronales(RNA)
+
+Las redes neuronales pueden reslver problemas complejos.
+
+=aprenden a traves de ejemplos
+=Adaptabilidad
+=capacidad de generalizacion
+=tolerante a fallas
+=implantacion rapida
+
+(Entradas -> Pesos =senhal= salida)
+|x1|		|W1||W1|				|Y1|
+|x2|		|W2||W2|	|S	 |		|Y2|
+|x3|		|W3||W3|	|   F|		|Y3|
+|x4|		|W4||W4|				|Y4|
+
+			NEURONA
+
+
+Perceptron
+
+=AA Supervisado
+/inicca toddas las conexxiones on valores randomicos cernos o iguales a 0
+/Aplicar un par de entrenamiento (x,d)
+/calcular la salida del error
+/Modificar los pesos
+
+IMPORTANTE:
+	No habra variacion de pasos ssi la salida es buena
+	Caso contrario cada peso es incrementado en "n" del error si la salida es mayor a lo deseado y cso contrario sera decrementado.
+
+Aprendizaje 
+	Gradiente de una funcion
+		F(x,y)=(d/dx f(x,y),d/dy F(x,y))
+	Derivada direccional es la tasa de variacion de la direcion definida "u"
+		DuF(x,y)=||VF(x,y)||cosy
+				=||VF(x,y)|||u|cosy
+				=||VF(x,y)||u				
+
+
+teorema del gradiente: Sea F una funcion de dos variables diferenciable en el punto P(x,y)
+	*El maximo de DuF(x,y) en P(x,y) es ||VF(x,y)||.
+	*La maxima tasa de crecimiento de F(x,y) en P(x,y) ocurre en la direccion.
+
+Metodo del gradiente decendiente:
+	*cada peso sinaptico i/ de la neurona j es acualizado al negativo  de la derivada parcial del error de esta neurona con relacion al paso
+		^Wij=-n dEj/dWij
+
+		^Wij=-n dEj/dWij
+	n=tasa de aprendizaje dara la intencidad de avance dentro de la neurona.
+	ERROR MEDIO CUADRATIICO
+	E=((d-y)^2) / 2
+	FOTO DE MI CEL ejemplo y 
+
+IMPORTANTE
+
+hacer el entonces a mano 
+peso iniciales 0
+
