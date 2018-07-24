@@ -1,0 +1,19 @@
+LENGUAJES DE PROGRAMACION
+Profesor:
+	Ing Yuber Elmer Velazco Paredes
+
+email: yvelazco@unsa.edu.pe
+
+contenido:
+-El desarrollo historico de los lenguajes de programacion
+-lenguajes imperativos
+-Orientacion a objetos
+-Lenguajes Funcionales
+-lengujes Logicos
+-Otros paradigma
+
+Evaluacion:
+-continua 20%
+-parcial 30%
+-continua 20%
+-final 30%
